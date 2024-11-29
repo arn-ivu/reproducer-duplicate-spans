@@ -11,7 +11,6 @@ import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 import io.quarkus.runtime.StartupEvent;
-import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -19,6 +18,10 @@ import jakarta.enterprise.event.Observes;
 
 @ApplicationScoped
 public class Main {
+
+    public static final Duration BASE_DELAY = Duration.ofSeconds(9);
+    public static final int MIN_DELAY_ADD = 900;
+    public static final int MAX_DELAY_ADD = 1500;
 
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
     private static final Tracer TRACER = GlobalOpenTelemetry.getTracer(Main.class.getName());
@@ -33,14 +36,14 @@ public class Main {
     public void main(@Observes final StartupEvent event) {
         Multi.createBy().repeating()
                 .uni(this::startUseCaseDelayed)
-                .withDelay(Duration.ofSeconds(9))
+                .withDelay(BASE_DELAY)
                 .indefinitely()
                 .subscribe()
                 .with(item -> LOG.info("Subscription completed"));
     }
 
     private Uni<Void> startUseCaseDelayed(){
-        final int delay = random.nextInt(900, 1500);
+        final int delay = random.nextInt(MIN_DELAY_ADD, MAX_DELAY_ADD);
 
         try {
             Thread.sleep(delay);
