@@ -24,7 +24,8 @@ it often resends spans that were already sent. This will then result in duplicat
 
 ## How to reproduce
 Start this program in dev mode. 
-Open grafana > explore. You can use the following traceQL to identify affected traces:
+Open grafana > explore. Choose Tempo as source.
+You can use the following traceQL to identify affected traces:
 ```TraceQL
 {resource.service.name="reproducer-duplicate-spans"} | count() > 2
 ```
