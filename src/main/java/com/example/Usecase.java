@@ -16,21 +16,9 @@ public class Usecase {
     private static final Random random = new Random();
 
     @WithSpan
-    public void doSomething(@SpanAttribute int n) {
-        int fib = fibonacci(n);
-        LOG.info("calculated fibonacci: " + fib);
+    public void doSomething(@SpanAttribute String message) {
+        LOG.info("Received: " + message);
     }
 
-    private int fibonacci(final int i) {
-        int x1 = 1;
-        int x2 = 1;
-
-        for(int j = 0; j < i; j++) {
-            int x = x1 + x2;
-            x1 = x2;
-            x2 = x;
-        }
-        return x2;
-    }
 
 }

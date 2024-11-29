@@ -61,7 +61,7 @@ public class Main {
                 .startSpan();
 
         try (final Scope scope = span.makeCurrent()) {
-            usecase.doSomething(random.nextInt(10000));
+            usecase.doSomething("Hello from Main");
         } finally {
             span.end();
         }
