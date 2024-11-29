@@ -13,6 +13,11 @@ You can run your application in dev mode that enables live coding using:
 ./mvnw compile quarkus:dev
 ```
 
+## otel-collector and grafana
+This project is configured to send start grafana dev-services. You can access the grafana dashboard via
+http://localhost:8080/q/dev-ui/extensions
+
+
 ## The issue
 The opentelemetry exporter sometimes restarts the connection to the collector, and when it does
 it often resends spans that were already sent. This will then result in duplicate spans in the collector.
